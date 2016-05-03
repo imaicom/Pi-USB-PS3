@@ -81,7 +81,7 @@ int joystick_input(struct ps3Ctls *ps3dat) {
 
 int joystick_getinfo(struct ps3Ctls *ps3dat) {
 
-//	int fd = ps3dat->fd;
+	int fd = ps3dat->fd;
 
 	if(ioctl(fd,JSIOCGBUTTONS,&ps3dat->nr_buttons) < 0) return -1;
 	if(ioctl(fd,JSIOCGAXES   ,&ps3dat->nr_sticks ) < 0) return -2;
