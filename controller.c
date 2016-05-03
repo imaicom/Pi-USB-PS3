@@ -9,6 +9,7 @@
 
 
 struct ps3ctls {
+	
 	int fd;
 	unsigned char nr_buttons;	// Max number of Buttons
 	unsigned char nr_sticks;	// Max number of Sticks
@@ -19,10 +20,9 @@ struct ps3ctls {
 
 int ps3c_test(struct ps3ctls *ps3dat) {
 
-	unsigned char i, nr_btn, nr_stk;
-
-	nr_btn = ps3dat->nr_buttons;
-	nr_stk = ps3dat->nr_sticks;
+	unsigned char i;
+	unsigned char nr_btn = ps3dat->nr_buttons;
+	unsigned char nr_stk = ps3dat->nr_sticks;
 
 	printf(" 1=%2d ",ps3dat->button[PAD_KEY_LEFT]);
 	printf(" 2=%2d ",ps3dat->button[PAD_KEY_RIGHT]);
@@ -42,7 +42,6 @@ int ps3c_input(struct ps3ctls *ps3dat) {
 
 	int rp;
 	struct js_event ev;
-	unsigned char num;
 
 	do {
 		rp = read(ps3dat->fd, &ev, sizeof(struct js_event));
@@ -51,17 +50,15 @@ int ps3c_input(struct ps3ctls *ps3dat) {
 		}
 	} while (ev.type & JS_EVENT_INIT);
 
-	num = ev.number;
-
 	switch (ev.type) {
 		case JS_EVENT_BUTTON:
-			if (num < ps3dat->nr_buttons) {
-				ps3dat->button[num] = ev.value;
+			if (ev.number < ps3dat->nr_buttons) {
+				ps3dat->button[ev.number] = ev.value;
 			}
 			break;
 		case JS_EVENT_AXIS:
-			if (num < ps3dat->nr_sticks) {
-				ps3dat->stick[num] = ev.value / 327; // range -32767 ~ +32768 -> -100 ~ +100
+			if (ev.number < ps3dat->nr_sticks) {
+				ps3dat->stick[ev.number] = ev.value / 327; // range -32767 ~ +32768 -> -100 ~ +100
 			}
 			break;
 		default:
@@ -83,7 +80,8 @@ int ps3c_getinfo(struct ps3ctls *ps3dat) {
 
 int ps3c_init(struct ps3ctls *ps3dat, const char *df) {
 
-	unsigned char nr_btn, nr_stk;
+	unsigned char nr_btn = ps3dat->nr_buttons;
+	unsigned char nr_stk = ps3dat->nr_sticks;
 	unsigned char *p;
 
 	ps3dat->fd = open(df, O_RDONLY);
@@ -93,9 +91,6 @@ int ps3c_init(struct ps3ctls *ps3dat, const char *df) {
 		close(ps3dat->fd);
 		return -2;
 	}
-
-	nr_btn = ps3dat->nr_buttons;
-	nr_stk = ps3dat->nr_sticks;
 
 	p = malloc((nr_btn + nr_stk) * sizeof(short));
 	if (p == NULL) {
