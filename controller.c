@@ -14,7 +14,6 @@ struct ps3Ctls {
 	unsigned char nr_sticks;
 	short *button;	// button[nr_buttons]
 	short *stick;		// stick[nr_sticks]
-	char  *input;		// input[nr_btn * 2 + nr_stk * 7 + 1]
 };
 
 
@@ -26,22 +25,20 @@ int joystick_output(struct ps3Ctls *ps3dat) {
 	nr_btn = ps3dat->nr_buttons;
 	nr_stk = ps3dat->nr_sticks;
 
-//	printf("btn %d %d\n",nr_btn,nr_stk);
-
-	for (i = 0; i < nr_btn; i++) {
-		sprintf(&ps3dat->input[i * 2], "%2d", ps3dat->button[i] ? 1 : 0);
-	}
+//	for (i = 0; i < nr_btn; i++) {
+//		sprintf(&ps3dat->input[i * 2], "%2d", ps3dat->button[i] ? 1 : 0);
+//	}
 //	for (i = 0; i < nr_stk; i++) {
 //		t = ps3dat->stick[i] / 327;
 //		sprintf(&ps3dat->input[nr_btn * 2 + i * 7], "%7d", t);
 //	}
 
-	ps3dat->input[nr_btn * 2] = '\0';
-//	ps3dat->input[nr_btn * 2 + nr_stk * 7] = '\0';
-
-//	fprintf(fp, "%s\n", ps3dat->input);
-//	printf("%s\n", ps3dat->input);
-	printf("%2d\n",ps3dat->button[0]);
+	printf(" 0=%2d ",ps3dat->button[PAD_KEY_SELECT]);
+	printf(" 1=%2d ",ps3dat->button[PAD_KEY_LEFT]);
+	printf(" 2=%2d ",ps3dat->button[PAD_KEY_RIGHT]);
+	printf(" 3=%2d ",ps3dat->button[PAD_KEY_UP]);
+	printf(" 4=%2d ",ps3dat->button[PAD_KEY_DOWN]);
+	printf("\n");
 
 	return 0;
 }
@@ -70,7 +67,7 @@ int joystick_input(struct ps3Ctls *ps3dat) {
 			break;
 		case JS_EVENT_AXIS:
 			if (num < ps3dat->nr_sticks) {
-				ps3dat->stick[num] = ev.value;
+				ps3dat->stick[num] = ev.value / 327; // range -32767 ~ +32768 -> -100 ~ +100
 			}
 			break;
 		default:
@@ -108,14 +105,13 @@ int joystick_init(struct ps3Ctls *ps3dat, const char *df) {
 	nr_btn = ps3dat->nr_buttons;
 	nr_stk = ps3dat->nr_sticks;
 
-	p = malloc((nr_btn + nr_stk) * sizeof(short) + nr_btn * 2 + nr_stk * 7 + 1);
+	p = malloc((nr_btn + nr_stk) * sizeof(short));
 	if (p == NULL) {
 		close(ps3dat->fd);
 		return -3;
 	}
 	ps3dat->button = (short *)p;
 	ps3dat->stick  = (short *)&p[nr_btn * sizeof(short)];
-	ps3dat->input  = (char  *)&p[(nr_btn + nr_stk) * sizeof(short)];
 
 	return 0;
 }
