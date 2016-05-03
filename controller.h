@@ -19,13 +19,13 @@
 
 
 # Sticks constant
-#define PAD_LEFT ()
 #define PAD_LEFT_X 0
 #define PAD_LEFT_Y 1
 #define PAD_RIGHT_X 2
 #define PAD_RIGHT_Y 3
 #define PAD_UP 8
 #define PAD_RIGHT 9
+#define PAD_LEFT ()
 #define PAD_DOWN 10
 #define PAD_L2 12
 #define PAD_R2 13
