@@ -1,4 +1,4 @@
-# Buttons constant
+// Buttons constant
 #define PAD_KEY_SELECT 0
 #define PAD_KEY_L_JOYSTICK 1
 #define PAD_KEY_R_JOYSTICK 2
@@ -18,7 +18,7 @@
 #define PAD_KEY_PS 16
 
 
-# Sticks constant
+// Sticks constant
 #define PAD_LEFT_X 0
 #define PAD_LEFT_Y 1
 #define PAD_RIGHT_X 2
