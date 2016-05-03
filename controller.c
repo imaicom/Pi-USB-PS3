@@ -92,7 +92,7 @@ int ps3c_init(struct ps3ctls *ps3dat, const char *df) {
 		return -2;
 	}
 
-	p = malloc((nr_btn + nr_stk) * sizeof(short));
+	p = calloc(1,(nr_btn + nr_stk) * sizeof(short));
 	if (p == NULL) {
 		close(ps3dat->fd);
 		return -3;
