@@ -47,13 +47,13 @@ int joystick_output(struct ps3Ctls *ps3dat) {
 
 int joystick_input(struct ps3Ctls *ps3dat) {
 
-	int ret;
+	int rp;
 	struct js_event ev;
 	unsigned char num;
 
 	do {
-		ret = read(ps3dat->fd, &ev, sizeof(struct js_event));
-		if (ret != sizeof(struct js_event)) {
+		rp = read(ps3dat->fd, &ev, sizeof(struct js_event));
+		if (rp != sizeof(struct js_event)) {
 			return -1;
 		}
 	} while (ev.type & JS_EVENT_INIT);
@@ -109,7 +109,7 @@ int joystick_init(struct ps3Ctls *ps3dat, const char *df) {
 	p = malloc((nr_btn + nr_stk) * sizeof(short) + nr_btn * 2 + nr_stk * 7 + 1);
 	if (p == NULL) {
 		close(ps3dat->fd);
-		return -2;
+		return -3;
 	}
 	ps3dat->button = (short *)p;
 	ps3dat->stick  = (short *)&p[nr_btn * sizeof(short)];
