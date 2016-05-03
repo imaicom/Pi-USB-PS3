@@ -99,6 +99,15 @@ int ps3c_init(struct ps3ctls *ps3dat, const char *df) {
 	}
 	ps3dat->button = (short *)p;
 	ps3dat->stick  = (short *)&p[nr_btn * sizeof(short)];
+	
+	ps3dat->button[PAD_KEY_LEFT]=0;
+	ps3dat->button[PAD_KEY_RIGHT]=0;
+	ps3dat->button[PAD_KEY_UP]=0;;
+	ps3dat->button[PAD_KEY_DOWN]=0;
+	ps3dat->stick [PAD_LEFT_X]=0;
+	ps3dat->stick [PAD_LEFT_Y]=0;
+	ps3dat->stick [PAD_RIGHT_X]=0;
+	ps3dat->stick [PAD_RIGHT_Y]=0;
 
 	return 0;
 }
