@@ -10,34 +10,28 @@
 
 struct ps3Ctls {
 	int fd;
-	unsigned char nr_buttons;
-	unsigned char nr_sticks;
-	short *button;	// button[nr_buttons]
-	short *stick;		// stick[nr_sticks]
+	unsigned char nr_buttons;	// Max number of Buttons
+	unsigned char nr_sticks;	// Max number of Sticks
+	short *button;			// button[nr_buttons]
+	short *stick;			// stick[nr_sticks]
 };
 
 
-int joystick_output(struct ps3Ctls *ps3dat) {
+int joystick_test(struct ps3Ctls *ps3dat) {
 
 	unsigned char i, nr_btn, nr_stk;
-	long t;
 
 	nr_btn = ps3dat->nr_buttons;
 	nr_stk = ps3dat->nr_sticks;
 
-//	for (i = 0; i < nr_btn; i++) {
-//		sprintf(&ps3dat->input[i * 2], "%2d", ps3dat->button[i] ? 1 : 0);
-//	}
-//	for (i = 0; i < nr_stk; i++) {
-//		t = ps3dat->stick[i] / 327;
-//		sprintf(&ps3dat->input[nr_btn * 2 + i * 7], "%7d", t);
-//	}
-
-	printf(" 0=%2d ",ps3dat->button[PAD_KEY_SELECT]);
 	printf(" 1=%2d ",ps3dat->button[PAD_KEY_LEFT]);
 	printf(" 2=%2d ",ps3dat->button[PAD_KEY_RIGHT]);
 	printf(" 3=%2d ",ps3dat->button[PAD_KEY_UP]);
 	printf(" 4=%2d ",ps3dat->button[PAD_KEY_DOWN]);
+	printf(" 5=%2d ",ps3dat->stick [PAD_LEFT_X]);
+	printf(" 6=%2d ",ps3dat->stick [PAD_LEFT_Y]);
+	printf(" 7=%2d ",ps3dat->stick [PAD_RIGHT_X]);
+	printf(" 8=%2d ",ps3dat->stick [PAD_RIGHT_Y]);
 	printf("\n");
 
 	return 0;
@@ -131,7 +125,7 @@ void main() {
 	if(!(joystick_init(&ps3dat, df))) {
 
 		do {
-			if (joystick_output(&ps3dat) < 0) break;
+			if (joystick_test(&ps3dat) < 0) break;
 		} while (!(joystick_input(&ps3dat)));
 		
 		joystick_exit(&ps3dat);		
