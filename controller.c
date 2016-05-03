@@ -28,10 +28,10 @@ int joystick_test(struct ps3Ctls *ps3dat) {
 	printf(" 2=%2d ",ps3dat->button[PAD_KEY_RIGHT]);
 	printf(" 3=%2d ",ps3dat->button[PAD_KEY_UP]);
 	printf(" 4=%2d ",ps3dat->button[PAD_KEY_DOWN]);
-	printf(" 5=%2d ",ps3dat->stick [PAD_LEFT_X]);
-	printf(" 6=%2d ",ps3dat->stick [PAD_LEFT_Y]);
-	printf(" 7=%2d ",ps3dat->stick [PAD_RIGHT_X]);
-	printf(" 8=%2d ",ps3dat->stick [PAD_RIGHT_Y]);
+	printf(" 5=%4d ",ps3dat->stick [PAD_LEFT_X]);
+	printf(" 6=%4d ",ps3dat->stick [PAD_LEFT_Y]);
+	printf(" 7=%4d ",ps3dat->stick [PAD_RIGHT_X]);
+	printf(" 8=%4d ",ps3dat->stick [PAD_RIGHT_Y]);
 	printf("\n");
 
 	return 0;
@@ -74,10 +74,8 @@ int joystick_input(struct ps3Ctls *ps3dat) {
 
 int joystick_getinfo(struct ps3Ctls *ps3dat) {
 
-	int fd = ps3dat->fd;
-
-	if(ioctl(fd,JSIOCGBUTTONS,&ps3dat->nr_buttons) < 0) return -1;
-	if(ioctl(fd,JSIOCGAXES   ,&ps3dat->nr_sticks ) < 0) return -2;
+	if(ioctl(ps3dat->fd , JSIOCGBUTTONS , &ps3dat->nr_buttons) < 0) return -1;
+	if(ioctl(ps3dat->fd , JSIOCGAXES    , &ps3dat->nr_sticks ) < 0) return -2;
 
 	return 0;
 }
