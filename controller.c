@@ -42,8 +42,6 @@ int ps3c_input(struct ps3ctls *ps3dat) {
 
 	int rp;
 	struct js_event ev;
-	unsigned char nr_btn = ps3dat->nr_buttons;
-	unsigned char nr_stk = ps3dat->nr_sticks;
 
 	do {
 		rp = read(ps3dat->fd, &ev, sizeof(struct js_event));
@@ -54,12 +52,12 @@ int ps3c_input(struct ps3ctls *ps3dat) {
 
 	switch (ev.type) {
 		case JS_EVENT_BUTTON:
-			if (ev.number < nr_btn) {
+			if (ev.number < ps3dat->nr_buttons) {
 				ps3dat->button[ev.number] = ev.value;
 			}
 			break;
 		case JS_EVENT_AXIS:
-			if (ev.number < nr_stk) {
+			if (ev.number < ps3dat->nr_sticks) {
 				ps3dat->stick[ev.number] = ev.value / 327; // range -32767 ~ +32768 -> -100 ~ +100
 			}
 			break;
@@ -94,7 +92,7 @@ int ps3c_init(struct ps3ctls *ps3dat, const char *df) {
 		return -2;
 	}
 
-	p = calloc(1 , (nr_btn + nr_stk) * sizeof(short));
+	p = malloc((nr_btn + nr_stk) * sizeof(short));
 	if (p == NULL) {
 		close(ps3dat->fd);
 		return -3;
