@@ -5,6 +5,8 @@
 #include <sys/ioctl.h>
 #include <linux/joystick.h>
 
+#include "controller.h"
+
 
 struct ps3Ctls {
 	int fd;
