@@ -8,7 +8,7 @@
 #include "controller.h"
 
 
-struct ps3Ctls {
+struct ps3ctls {
 	int fd;
 	unsigned char nr_buttons;	// Max number of Buttons
 	unsigned char nr_sticks;	// Max number of Sticks
@@ -17,7 +17,7 @@ struct ps3Ctls {
 };
 
 
-int joystick_test(struct ps3Ctls *ps3dat) {
+int ps3c_test(struct ps3ctls *ps3dat) {
 
 	unsigned char i, nr_btn, nr_stk;
 
@@ -38,7 +38,7 @@ int joystick_test(struct ps3Ctls *ps3dat) {
 }
 
 
-int joystick_input(struct ps3Ctls *ps3dat) {
+int ps3c_input(struct ps3ctls *ps3dat) {
 
 	int rp;
 	struct js_event ev;
@@ -72,7 +72,7 @@ int joystick_input(struct ps3Ctls *ps3dat) {
 }
 
 
-int joystick_getinfo(struct ps3Ctls *ps3dat) {
+int ps3c_getinfo(struct ps3ctls *ps3dat) {
 
 	if(ioctl(ps3dat->fd , JSIOCGBUTTONS , &ps3dat->nr_buttons) < 0) return -1;
 	if(ioctl(ps3dat->fd , JSIOCGAXES    , &ps3dat->nr_sticks ) < 0) return -2;
@@ -81,7 +81,7 @@ int joystick_getinfo(struct ps3Ctls *ps3dat) {
 }
 
 
-int joystick_init(struct ps3Ctls *ps3dat, const char *df) {
+int ps3c_init(struct ps3ctls *ps3dat, const char *df) {
 
 	unsigned char nr_btn, nr_stk;
 	unsigned char *p;
@@ -89,7 +89,7 @@ int joystick_init(struct ps3Ctls *ps3dat, const char *df) {
 	ps3dat->fd = open(df, O_RDONLY);
 	if (ps3dat->fd < 0) return -1;
 
-	if (joystick_getinfo(ps3dat) < 0) {
+	if (ps3c_getinfo(ps3dat) < 0) {
 		close(ps3dat->fd);
 		return -2;
 	}
@@ -108,7 +108,7 @@ int joystick_init(struct ps3Ctls *ps3dat, const char *df) {
 	return 0;
 }
 
-void joystick_exit   (struct ps3Ctls *ps3dat) {
+void ps3c_exit   (struct ps3ctls *ps3dat) {
 
 	free (ps3dat->button);
 	close(ps3dat->fd);
@@ -118,14 +118,14 @@ void joystick_exit   (struct ps3Ctls *ps3dat) {
 void main() {
 
 	char *df = "/dev/input/js0";
-	struct ps3Ctls ps3dat;
+	struct ps3ctls ps3dat;
 
-	if(!(joystick_init(&ps3dat, df))) {
+	if(!(ps3c_init(&ps3dat, df))) {
 
 		do {
-			if (joystick_test(&ps3dat) < 0) break;
-		} while (!(joystick_input(&ps3dat)));
+			if (ps3c_test(&ps3dat) < 0) break;
+		} while (!(ps3c_input(&ps3dat)));
 		
-		joystick_exit(&ps3dat);		
+		ps3c_exit(&ps3dat);		
 	}
 }
