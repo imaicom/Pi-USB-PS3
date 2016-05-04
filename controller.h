@@ -11,10 +11,10 @@
 #define PAD_KEY_R2 9
 #define PAD_KEY_L1 10
 #define PAD_KEY_R1 11
-#define PAD_KEY_SANKAKU 12
-#define PAD_KEY_MARU 13
-#define PAD_KEY_BATSU 14
-#define PAD_KEY_SHIKAKU 15
+#define PAD_KEY_TRIANGLE 12
+#define PAD_KEY_CIRCLE 13
+#define PAD_KEY_CROSS 14
+#define PAD_KEY_SQUARE 15
 #define PAD_KEY_PS 16
 
 
@@ -31,7 +31,7 @@
 #define PAD_R2 13
 #define PAD_L1 14
 #define PAD_R1 15
-#define PAD_SANKAKU 16
-#define PAD_MARU 17
-#define PAD_BATSU 18
-#define PAD_SHIKAKU 19
+#define PAD_TRIANGLE 16
+#define PAD_CIRCLE 17
+#define PAD_CROSS 18
+#define PAD_SQUARE 19
