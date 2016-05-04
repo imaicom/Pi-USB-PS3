@@ -34,6 +34,8 @@ int ps3c_test(struct ps3ctls *ps3dat) {
 	printf(" 8=%4d ",ps3dat->stick [PAD_RIGHT_Y]);
 	printf("\n");
 
+	if(ps3dat->button[PAD_KEY_BATSU]==1) return -1; // end of program
+
 	return 0;
 }
 
@@ -80,8 +82,8 @@ int ps3c_getinfo(struct ps3ctls *ps3dat) {
 
 int ps3c_init(struct ps3ctls *ps3dat, const char *df) {
 
-	unsigned char nr_btn = ps3dat->nr_buttons;
-	unsigned char nr_stk = ps3dat->nr_sticks;
+	unsigned char nr_btn;
+	unsigned char nr_stk;
 	unsigned char *p;
 	int i;
 
@@ -93,7 +95,11 @@ int ps3c_init(struct ps3ctls *ps3dat, const char *df) {
 		return -2;
 	}
 
-	p = malloc((nr_btn + nr_stk) * sizeof(short));
+	nr_btn = ps3dat->nr_buttons;
+	nr_stk = ps3dat->nr_sticks;
+//	printf("%d %d\n",nr_btn,nr_stk);
+
+	p = calloc(nr_btn + nr_stk , sizeof(short));
 	if (p == NULL) {
 		close(ps3dat->fd);
 		return -3;
@@ -103,14 +109,14 @@ int ps3c_init(struct ps3ctls *ps3dat, const char *df) {
 	
 //	for (i = 0; i<nr_btn; i++) ps3dat->button[i] = 0;
 //	for (i = 0; i<nr_stk; i++) ps3dat->stick [i] = 0;
-	ps3dat->button[PAD_KEY_LEFT]=0;
-	ps3dat->button[PAD_KEY_RIGHT]=0;
-	ps3dat->button[PAD_KEY_UP]=0;;
-	ps3dat->button[PAD_KEY_DOWN]=0;
-	ps3dat->stick [PAD_LEFT_X]=0;
-	ps3dat->stick [PAD_LEFT_Y]=0;
-	ps3dat->stick [PAD_RIGHT_X]=0;
-	ps3dat->stick [PAD_RIGHT_Y]=0;
+//	ps3dat->button[PAD_KEY_LEFT]=0;
+//	ps3dat->button[PAD_KEY_RIGHT]=0;
+//	ps3dat->button[PAD_KEY_UP]=0;;
+//	ps3dat->button[PAD_KEY_DOWN]=0;
+//	ps3dat->stick [PAD_LEFT_X]=0;
+//	ps3dat->stick [PAD_LEFT_Y]=0;
+//	ps3dat->stick [PAD_RIGHT_X]=0;
+//	ps3dat->stick [PAD_RIGHT_Y]=0;
 
 	return 0;
 }
