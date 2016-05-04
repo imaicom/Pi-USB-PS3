@@ -24,6 +24,8 @@ int ps3c_test(struct ps3ctls *ps3dat) {
 	unsigned char nr_btn = ps3dat->nr_buttons;
 	unsigned char nr_stk = ps3dat->nr_sticks;
 
+//	printf("%d %d\n",nr_btn,nr_stk);
+
 	printf(" 1=%2d ",ps3dat->button[PAD_KEY_LEFT]);
 	printf(" 2=%2d ",ps3dat->button[PAD_KEY_RIGHT]);
 	printf(" 3=%2d ",ps3dat->button[PAD_KEY_UP]);
@@ -34,7 +36,7 @@ int ps3c_test(struct ps3ctls *ps3dat) {
 	printf(" 8=%4d ",ps3dat->stick [PAD_RIGHT_Y]);
 	printf("\n");
 
-	if(ps3dat->button[PAD_KEY_BATSU]==1) return -1; // end of program
+	if(ps3dat->button[PAD_KEY_CROSS]==1) return -1; // end of program
 
 	return 0;
 }
