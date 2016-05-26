@@ -188,7 +188,7 @@ void main() {
 
 	if(!(ps3c_init(&ps3dat, df))) {
 
-		do {
+		while(1) do {
 			if (ps3c_test(&ps3dat) < 0) break;
 		} while (!(ps3c_input(&ps3dat)));
 		
