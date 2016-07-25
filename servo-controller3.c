@@ -66,6 +66,7 @@ int ps3c_test(struct ps3ctls *ps3dat) {
 	unsigned char i;
 	unsigned char nr_btn = ps3dat->nr_buttons;
 	unsigned char nr_stk = ps3dat->nr_sticks;
+	int x,y;
 
 //	printf("%d %d\n",nr_btn,nr_stk);
 
@@ -84,7 +85,11 @@ int ps3c_test(struct ps3ctls *ps3dat) {
 
 
 	setPCA9685Duty(fds , 0 , ps3dat->stick [PAD_LEFT_X]);
-	setPCA9685Duty(fds , 1 , ps3dat->stick [PAD_LEFT_X]);
+	// y=0.0013x^2-1.0769x-5.3594
+	//setPCA9685Duty(fds , 1 , ps3dat->stick [PAD_LEFT_X]);
+	x = ps3dat->stick [PAD_LEFT_X];
+	y = 0.0013*x*x-1.0769*x-5.3594;
+	setPCA9685Duty(fds , 1 , y);
 
 	return 0;
 }
