@@ -84,7 +84,7 @@ int ps3c_test(struct ps3ctls *ps3dat) {
 
 
 	setPCA9685Duty(fds , 0 , ps3dat->stick [PAD_LEFT_X]);
-	setPCA9685Duty(fds , 1 , ps3dat->stick [PAD_LEFT_Y]);
+	setPCA9685Duty(fds , 1 , ps3dat->stick [PAD_LEFT_X]);
 
 	return 0;
 }
