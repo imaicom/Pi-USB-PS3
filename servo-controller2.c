@@ -49,13 +49,13 @@ int setPCA9685Freq(int fd , float freq) {
 }
 
 
-int setPCA9685Duty(int fd , int channel , int on , int off) {
+int setPCA9685Duty(int fd , int channel , int off) {
 	int channelpos;
+	int on;
+	
+	on   = 0;
+	off += 276;
 	channelpos = 0x6 + 4 * channel;
-//	wiringPiI2CWriteReg8(fd , channelpos , on >> 8   );
-//	wiringPiI2CWriteReg8(fd , channelpos , on & 0xFF );
-//	wiringPiI2CWriteReg8(fd , channelpos , off >> 8  );
-//	wiringPiI2CWriteReg8(fd , channelpos , off & 0xFF);
 	wiringPiI2CWriteReg16(fd , channelpos   , on  & 0x0FFF);
 	wiringPiI2CWriteReg16(fd , channelpos+2 , off & 0x0FFF);
 }
@@ -83,7 +83,8 @@ int ps3c_test(struct ps3ctls *ps3dat) {
 
 
 
-	setPCA9685Duty(fds , 0 , 0 , 276 + ps3dat->stick [PAD_LEFT_X]);
+	setPCA9685Duty(fds , 0 , ps3dat->stick [PAD_LEFT_X]);
+	setPCA9685Duty(fds , 1 , ps3dat->stick [PAD_LEFT_Y]);
 
 	return 0;
 }
@@ -109,7 +110,7 @@ int ps3c_input(struct ps3ctls *ps3dat) {
 			break;
 		case JS_EVENT_AXIS:
 			if (ev.number < ps3dat->nr_sticks) {
-				ps3dat->stick[ev.number] = ev.value / 327; // range -32767 ~ +32768 -> -100 ~ +100
+				ps3dat->stick[ev.number] = ev.value / 200; //327 range -32767 ~ +32768 -> -100 ~ +100
 			}
 			break;
 		default:
