@@ -25,6 +25,7 @@ struct ps3ctls {
 };
 
 int fds;
+int saki=52;
 
 int resetPCA9685(int fd) {
 	wiringPiI2CWriteReg8(fd,0,0);
@@ -67,6 +68,7 @@ int ps3c_test(struct ps3ctls *ps3dat) {
 	unsigned char nr_btn = ps3dat->nr_buttons;
 	unsigned char nr_stk = ps3dat->nr_sticks;
 	int x,y;
+	int x2,y2;
 
 //	printf("%d %d\n",nr_btn,nr_stk);
 
@@ -90,6 +92,16 @@ int ps3c_test(struct ps3ctls *ps3dat) {
 	x = ps3dat->stick [PAD_LEFT_X];
 	y = 0.0013*x*x-1.0769*x-5.3594;
 	setPCA9685Duty(fds , 1 , y);
+
+	if(ps3dat->button[PAD_KEY_LEFT] ) saki=32;
+	if(ps3dat->button[PAD_KEY_UP])    saki=52;
+	if(ps3dat->button[PAD_KEY_RIGHT]) saki=72;
+	setPCA9685Duty(fds , 4 , saki);
+	
+	x2 = ps3dat->stick [PAD_RIGHT_X];
+	y2 = -2.0*0.00001*x2*x2-0.935*x2+7;
+	setPCA9685Duty(fds , 2 , x2);
+	setPCA9685Duty(fds , 3 , y2);
 
 	return 0;
 }
