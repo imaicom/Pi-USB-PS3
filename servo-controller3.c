@@ -98,7 +98,7 @@ int ps3c_test(struct ps3ctls *ps3dat) {
 //	// y=0.0013x^2-1.0769x-5.3594
 //	//setPCA9685Duty(fds , 1 , ps3dat->stick [PAD_LEFT_X]);
 //	x = ps3dat->stick [PAD_LEFT_X];
-//	y = 0.0013*x*x-1.0769*x-5.3594;
+//	y = 0.0013*x*x-1.0769*x-5.3594; test
 //	setPCA9685Duty(fds , 1 , y);
 //
 //	if(ps3dat->button[PAD_KEY_LEFT] ) saki=32;
