@@ -27,7 +27,7 @@ struct ps3ctls {
 int fds;
 #define saki3o 47
 #define saki4o 52
-#define saki5o 8
+#define saki5o 3
 int saki1  = 0;
 int saki2  = 0;
 int saki3  = saki3o;
@@ -95,6 +95,7 @@ int ps3c_test(struct ps3ctls *ps3dat) {
 
 	setPCA9685Duty(fds , 0 , ps3dat->stick [PAD_LEFT_X]);
 	setPCA9685Duty(fds , 1 , ps3dat->stick [PAD_RIGHT_X]-30);
+	setPCA9685Duty(fds , 2 , ps3dat->stick [PAD_RIGHT_X]);
 //	// y=0.0013x^2-1.0769x-5.3594
 //	//setPCA9685Duty(fds , 1 , ps3dat->stick [PAD_LEFT_X]);
 //	x = ps3dat->stick [PAD_LEFT_X];
@@ -112,9 +113,10 @@ int ps3c_test(struct ps3ctls *ps3dat) {
 //	setPCA9685Duty(fds , 3 , y2);
 
 //	if(ps3dat->button[PAD_KEY_UP])    {saki3=saki3o;   saki4=saki4o;   };
-	if(ps3dat->button[PAD_KEY_RIGHT]) {saki1++;if(saki1>+160) saki1=+160;};
-	if(ps3dat->button[PAD_KEY_LEFT] ) {saki1--;if(saki1<-160) saki1=-160;};
-	setPCA9685Duty(fds , 2 , saki1);
+
+//	if(ps3dat->button[PAD_KEY_RIGHT]) {saki1++;if(saki1>+160) saki1=+160;};
+//	if(ps3dat->button[PAD_KEY_LEFT] ) {saki1--;if(saki1<-160) saki1=-160;};
+//	setPCA9685Duty(fds , 2 , saki1);
 
 	if(ps3dat->button[PAD_KEY_SQUARE]) saki5=saki5o-10; 
 	if(ps3dat->button[PAD_KEY_CIRCLE]) saki5=saki5o+10;
