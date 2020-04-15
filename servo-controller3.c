@@ -96,27 +96,6 @@ int ps3c_test(struct ps3ctls *ps3dat) {
 	setPCA9685Duty(fds , 0 , ps3dat->stick [PAD_LEFT_X]);
 	setPCA9685Duty(fds , 1 , ps3dat->stick [PAD_RIGHT_X]-30);
 	setPCA9685Duty(fds , 2 , ps3dat->stick [PAD_RIGHT_X]);
-//	// y=0.0013x^2-1.0769x-5.3594
-//	//setPCA9685Duty(fds , 1 , ps3dat->stick [PAD_LEFT_X]);
-//	x = ps3dat->stick [PAD_LEFT_X];
-//	y = 0.0013*x*x-1.0769*x-5.3594; test
-//	setPCA9685Duty(fds , 1 , y);
-//
-//	if(ps3dat->button[PAD_KEY_LEFT] ) saki=32;
-//	if(ps3dat->button[PAD_KEY_UP])    saki=52;
-//	if(ps3dat->button[PAD_KEY_RIGHT]) saki=72;
-//	setPCA9685Duty(fds , 4 , saki);
-//	
-//	x2 = ps3dat->stick [PAD_RIGHT_X];
-//	y2 = -2.0*0.00001*x2*x2-0.935*x2+7;
-//	setPCA9685Duty(fds , 2 , x2);
-//	setPCA9685Duty(fds , 3 , y2);
-
-//	if(ps3dat->button[PAD_KEY_UP])    {saki3=saki3o;   saki4=saki4o;   };
-
-//	if(ps3dat->button[PAD_KEY_RIGHT]) {saki1++;if(saki1>+160) saki1=+160;};
-//	if(ps3dat->button[PAD_KEY_LEFT] ) {saki1--;if(saki1<-160) saki1=-160;};
-//	setPCA9685Duty(fds , 2 , saki1);
 
 	if(ps3dat->button[PAD_KEY_SQUARE]) saki5=saki5o-10; 
 	if(ps3dat->button[PAD_KEY_CIRCLE]) saki5=saki5o+10;
@@ -194,17 +173,6 @@ int ps3c_init(struct ps3ctls *ps3dat, const char *df) {
 	}
 	ps3dat->button = (short *)p;
 	ps3dat->stick  = (short *)&p[nr_btn * sizeof(short)];
-	
-//	for (i = 0; i<nr_btn; i++) ps3dat->button[i] = 0;
-//	for (i = 0; i<nr_stk; i++) ps3dat->stick [i] = 0;
-//	ps3dat->button[PAD_KEY_LEFT]=0;
-//	ps3dat->button[PAD_KEY_RIGHT]=0;
-//	ps3dat->button[PAD_KEY_UP]=0;;
-//	ps3dat->button[PAD_KEY_DOWN]=0;
-//	ps3dat->stick [PAD_LEFT_X]=0;
-//	ps3dat->stick [PAD_LEFT_Y]=0;
-//	ps3dat->stick [PAD_RIGHT_X]=0;
-//	ps3dat->stick [PAD_RIGHT_Y]=0;
 
 	return 0;
 }
