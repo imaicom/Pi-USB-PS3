@@ -25,14 +25,6 @@ struct ps3ctls {
 };
 
 int fds;
-#define saki3o 47
-#define saki4o 52
-#define saki5o 3
-int saki1  = 0;
-int saki2  = 0;
-int saki3  = saki3o;
-int saki4  = saki4o;
-int saki5  = saki5o;
 
 int resetPCA9685(int fd) {
 	wiringPiI2CWriteReg8(fd,0,0);
@@ -77,8 +69,6 @@ int ps3c_test(struct ps3ctls *ps3dat) {
 	int x,y;
 	int x2,y2;
 
-//	printf("%d %d\n",nr_btn,nr_stk);
-
 	printf(" 1=%2d ",ps3dat->button[PAD_KEY_LEFT]);
 	printf(" 2=%2d ",ps3dat->button[PAD_KEY_RIGHT]);
 	printf(" 3=%2d ",ps3dat->button[PAD_KEY_UP]);
@@ -89,19 +79,18 @@ int ps3c_test(struct ps3ctls *ps3dat) {
 	printf(" 8=%4d ",ps3dat->stick [PAD_RIGHT_Y]);
 	printf("\n");
 
-	if(ps3dat->button[PAD_KEY_CROSS]==1) return -1; // end of program
+	if(ps3dat->button[PAD_KEY_CROSS]) return -1; // end of program
 
 
+//	setPCA9685Duty(fds , 0 , ps3dat->stick [PAD_LEFT_X]);
+//	setPCA9685Duty(fds , 1 , ps3dat->stick [PAD_LEFT_Y]);
+//	setPCA9685Duty(fds , 2 , ps3dat->stick [PAD_RIGHT_X]);
+//	setPCA9685Duty(fds , 3 , ps3dat->stick [PAD_RIGHT_Y]);
 
-	setPCA9685Duty(fds , 0 , ps3dat->stick [PAD_LEFT_X]);
-	setPCA9685Duty(fds , 1 , ps3dat->stick [PAD_RIGHT_X]-30);
-	setPCA9685Duty(fds , 2 , ps3dat->stick [PAD_RIGHT_X]);
-
-	if(ps3dat->button[PAD_KEY_SQUARE]) saki5=saki5o-10; 
-	if(ps3dat->button[PAD_KEY_CIRCLE]) saki5=saki5o+10;
-	if(ps3dat->button[PAD_KEY_TRIANGLE]) saki5=saki5o+3;
-	if(ps3dat->button[PAD_KEY_SQUARE]+ps3dat->button[PAD_KEY_CIRCLE]==0) saki5=saki5o;
-	setPCA9685Duty(fds , 4 , saki5);
+	if(ps3dat->button[PAD_KEY_SQUARE]) setPCA9685Duty(fds , 1 , -80);
+	else if(ps3dat->button[PAD_KEY_CIRCLE]) setPCA9685Duty(fds , 1 , +80); else setPCA9685Duty(fds , 1 , 25); 
+	if(ps3dat->button[PAD_KEY_TRIANGLE]) ;
+	if(ps3dat->button[PAD_KEY_SQUARE]) ;
 
 	return 0;
 }
@@ -127,7 +116,7 @@ int ps3c_input(struct ps3ctls *ps3dat) {
 			break;
 		case JS_EVENT_AXIS:
 			if (ev.number < ps3dat->nr_sticks) {
-				ps3dat->stick[ev.number] = ev.value / 200; //327 range -32767 ~ +32768 -> -100 ~ +100
+				ps3dat->stick[ev.number] = ev.value / 327; //327 range -32767 ~ +32768 -> -100 ~ +100
 			}
 			break;
 		default:
