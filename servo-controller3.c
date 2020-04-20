@@ -87,8 +87,10 @@ int ps3c_test(struct ps3ctls *ps3dat) {
 //	setPCA9685Duty(fds , 2 , ps3dat->stick [PAD_RIGHT_X]);
 //	setPCA9685Duty(fds , 3 , ps3dat->stick [PAD_RIGHT_Y]);
 
-	if(ps3dat->button[PAD_KEY_SQUARE]) setPCA9685Duty(fds , 1 , -80);
-	else if(ps3dat->button[PAD_KEY_CIRCLE]) setPCA9685Duty(fds , 1 , +80); else setPCA9685Duty(fds , 1 , 25); 
+	if((ps3dat->button[PAD_KEY_SQUARE])&&(!ps3dat->button[PAD_KEY_CIRCLE])) setPCA9685Duty(fds , 1 , -80);
+	else if((!ps3dat->button[PAD_KEY_SQUARE])&&(ps3dat->button[PAD_KEY_CIRCLE])) setPCA9685Duty(fds , 1 , +80); 
+	else setPCA9685Duty(fds , 1 , 25); // center
+	
 	if(ps3dat->button[PAD_KEY_TRIANGLE]) ;
 	if(ps3dat->button[PAD_KEY_SQUARE]) ;
 
