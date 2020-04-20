@@ -1,12 +1,10 @@
-// cc -o servo-controller servo-controller.c -lwiringPi -lm
+// cc -o servo-controller servo-controller3.c -lwiringPi -lm
 #include <stdio.h>
+#include <stdlib.h>
 #include <wiringPi.h>
 #include <wiringPiI2C.h>
 #include <math.h>
 
-// cc -o controller controller.c
-#include <stdio.h>
-#include <stdlib.h>
 #include <fcntl.h>
 #include <unistd.h>
 #include <sys/ioctl.h>
