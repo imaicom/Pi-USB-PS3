@@ -52,7 +52,7 @@ int setPCA9685Duty(int fd , int channel , int off) {
 	int on;
 	
 	on   = 0;
-	off += 276;
+	off += 276 + 25; // offset + 25
 	channelpos = 0x6 + 4 * channel;
 	wiringPiI2CWriteReg16(fd , channelpos   , on  & 0x0FFF);
 	wiringPiI2CWriteReg16(fd , channelpos+2 , off & 0x0FFF);
@@ -87,7 +87,7 @@ int ps3c_test(struct ps3ctls *ps3dat) {
 
 	if((ps3dat->button[PAD_KEY_SQUARE])&&(!ps3dat->button[PAD_KEY_CIRCLE])) setPCA9685Duty(fds , 1 , -80);
 	else if((!ps3dat->button[PAD_KEY_SQUARE])&&(ps3dat->button[PAD_KEY_CIRCLE])) setPCA9685Duty(fds , 1 , +80); 
-	else setPCA9685Duty(fds , 1 , 25); // center
+	else setPCA9685Duty(fds , 1 , 0); // center
 	
 	if(ps3dat->button[PAD_KEY_TRIANGLE]) ;
 	if(ps3dat->button[PAD_KEY_SQUARE]) ;
